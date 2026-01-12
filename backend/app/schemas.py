@@ -3,6 +3,11 @@ from datetime import datetime
 from pydantic import BaseModel, EmailStr
 from enum import Enum
 
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+
 class ContentType(str, Enum):
     video = "video"
     article = "article"
@@ -46,3 +51,26 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: str
     role: UserRole
+
+class ProgramCreate(BaseModel):
+    title: str
+    description: Optional[str] = None
+
+    language_primary: str
+    languages_available: List[str]
+
+    topic_ids: Optional[List[int]] = []
+
+class ProgramUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+
+    language_primary: Optional[str] = None
+    languages_available: Optional[List[str]] = None
+
+    topic_ids: Optional[List[int]] = None
+
+class TermCreate(BaseModel):
+    program_id: str
+    term_number: int
+    title: Optional[str] = None

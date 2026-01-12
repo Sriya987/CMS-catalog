@@ -41,3 +41,14 @@ def list_users(
     _: dict = Depends(require_role("admin"))
 ):
     ...
+
+@router.post("/__seed_admin")
+def seed_admin(db: Session = Depends(get_db)):
+    user = User(
+        email="admin@test.com",
+        password_hash=hash_password("admin123"),
+        role="admin"
+    )
+    db.add(user)
+    db.commit()
+    return {"ok": True}
